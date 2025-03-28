@@ -12,7 +12,9 @@ concurrency:
 jobs:
   build:
     name: Build for starlte
-    runs-on: ubuntu-20.04-8core
+    runs-on:
+      group: ubuntu-runners
+      labels: ubuntu-20.04-8core
     permissions:
       contents: write
       
