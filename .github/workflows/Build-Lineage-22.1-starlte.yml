@@ -5,75 +5,71 @@ on: workflow_dispatch
 jobs:
   build-for-starlte
     runs-on:ubuntu-latest
-    steps:
-      - name: Setting up Build Directories
-        run: |
+    steps:- name:Setting up Build Directories
+        run:|
           mkdir ~/bin
           mkdir -p ~/android/lineage
           cd ~/android/lineage
           
-      - name: Installing Dependencies from Apt
-        run: |
+      - name:Installing Dependencies from Apt
+        run:|
           sudo apt-get install openjdk-8-jdk libwxgtk3.0-gtk3-dev bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev git curl git-lfs
           
-      - name: Installing "repo" Tool
-        run: |
+      - name:Installing "repo" Tool
+        run:|
           curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
           chmod a+x ~/bin/repo
           
-      - name: Authenticating "repo" with GitHub Account
-        run: |
+      - name:Authenticating "repo" with GitHub Account
+        run:|
           git config --global user.email "barts1a@gmail.com"
           git config --global user.name "Bart Smith"
           
-      - name: Enabling Caching
-        run: |
+      - name:Enabling Caching
+        run:|
           export USE_CCACHE=1
           export CCACHE_EXEC=/usr/bin/ccache
           ccache -M 50G
           
-      - name: Setting Up Local Repo
-        run: |
+      - name:Setting Up Local Repo
+        run:|
           ~/bin/repo init -u https://github.com/LineageOS/android.git -b lineage-20.0 --git-lfs
           git lfs install
           ~/bin/repo sync
           
-      - name: Setting Up Build Environment
-        run: |
+      - name:Setting Up Build Environment
+        run:|
           source build/envsetup.sh
           breakfast starlte
           
-      - name: Get proprietary files
+      - name:Get proprietary files
        run:|
         cd ~/android
         git clone https://github.com/doggie015/Lineage-starlte-blobs .
         cd ~/android/lineage
         breakfast starlte
-      - name: Setting Up Local Repo Take 2
-        run: |
+      - name:Setting Up Local Repo Take 2
+        run:|
           ~/bin/repo init -u https://github.com/LineageOS/android.git -b lineage-22.1 --git-lfs
           ~/bin/repo sync --force-sync
-      - name: Starting Build Process
-        run: |
+      - name:Starting Build Process
+        run:|
           croot
           brunch starlte
       
-      - name: Get current time
-        uses: srfrnk/current-time@master
-        id: current-time
-        with:
-          format: DD-MM-YYYY
+      - name:Get current time
+        uses:srfrnk/current-time@master
+        id:current-time
+        with:format:DD-MM-YYYY
       
-      - name: Uploading Build to Releases
-        uses: softprops/action-gh-release@v1
-        with:
-          name: "Auto Build ${{ steps.current-time.outputs.formattedTime }}"
-          tag_name: v1.0
-          prerelease: false
-          body: |
+      - name:Uploading Build to Releases
+        uses:softprops/action-gh-release@v1
+        with:name:"Auto Build ${{ steps.current-time.outputs.formattedTime }}"
+          tag_name:v1.0
+          prerelease:false
+          body:|
             This is an Automatic Release by GitHub Actions.
-          files: |
+          files:|
             $OUT/recovery.img
             $OUT/lineage-*-starlte.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:GITHUB_TOKEN:${{ secrets.GITHUB_TOKEN }}
