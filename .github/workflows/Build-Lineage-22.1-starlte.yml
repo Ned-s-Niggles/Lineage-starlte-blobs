@@ -70,18 +70,20 @@ jobs:
           brunch starlte
       
       - name: Get current time
-          uses:srfrnk/current-time@master
-          id:current-time
-          with:format:DD-MM-YYYY
+        uses: srfrnk/current-time@master
+        id: current-time
+        with: 
+          format: DD-MM-YYYY
       
       - name: Uploading Build to Releases
-          uses:softprops/action-gh-release@v1
-          with:name:"Auto Build ${{ steps.current-time.outputs.formattedTime }}"
-          tag_name:v1.0
-          prerelease:false
-          body:|
-            This is an Automatic Release by GitHub Actions.
-          files:|
-            $OUT/recovery.img
-            $OUT/lineage-*-starlte.zip
-          env:GITHUB_TOKEN:${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
+        with:
+            name: "Auto Build ${{ steps.current-time.outputs.formattedTime }}"
+            tag_name: v1.0
+            prerelease: false
+            body: |
+              This is an Automatic Release by GitHub Actions.
+              files:|
+                $OUT/recovery.img
+                $OUT/lineage-*-starlte.zip
+              env:GITHUB_TOKEN:${{ secrets.GITHUB_TOKEN }}
