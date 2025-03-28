@@ -15,12 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-        steps: 
-          - name: Setting up Build Directories
-            run:
-              mkdir ~/bin
-              mkdir -p ~/android/lineage
-              cd ~/android/lineage
+      
+    steps:
+      - name: Setting up Build Directories
+        run:
+          mkdir ~/bin
+          mkdir -p ~/android/lineage
+          cd ~/android/lineage
           
       - name: Installing Dependencies from Apt
         run:
