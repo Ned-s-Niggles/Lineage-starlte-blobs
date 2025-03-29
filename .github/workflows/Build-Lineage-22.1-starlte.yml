@@ -12,7 +12,9 @@ concurrency:
 jobs:
   build:
     name: Build for starlte
-    runs-on: ned-runner-1
+    runs-on:
+      group: Default
+      labels: ned-runner-1
     permissions:
       contents: write
       
